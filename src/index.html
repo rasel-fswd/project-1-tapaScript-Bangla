@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Movi Mania</title>
+    <link rel="stylesheet" href="output.css" />
+    <script type="module" src="./index.js" defer></script>
+  </head>
+  <body>
+    <div class="flex flex-col">
+      <nav class="bg-black text-white p-2">
+        <h1 class="text-3xl">Movie Mania</h1>
+      </nav>
+      <div class="flex justify-around p-8">
+        <div class="card" id="total-movies"></div>
+        <div class="card" id="total-average-rating"></div>
+        <div class="card" id="total-reviews"></div>
+      </div>
+    </div>
+    <div class="p-4 bg-blue-400" id="movie-list">
+      <h2 class="text-2xl">Movie Reviews</h2>
+      <ul class="my-2"></ul>
+    </div>
+  </body>
+</html>
