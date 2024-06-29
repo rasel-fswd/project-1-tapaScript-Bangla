@@ -2,12 +2,13 @@ import { getMovieReviewData } from './data.js';
 
 function inti() {
   const movieReviewData = getMovieReviewData();
-  console.log(movieReviewData);
-
+  registerEventHandler(movieReviewData);
   paintStats(movieReviewData);
   paintMovieData(movieReviewData);
 }
 
+
+//Printing statistics
 function paintStats(data) {
   //Processing data
   const flatReviewData = data.flat();
@@ -32,17 +33,34 @@ function paintStats(data) {
 //Creating HTML ELements and Displaying data to the DOM
 function addStats(elm, value) {
   const spanElm = document.createElement('span');
-  spanElm.classList.add('text-6xl', 'font-semibold'
-  );
+  spanElm.classList.add('text-6xl', 'font-semibold');
   spanElm.innerText = value;
   elm.appendChild(spanElm);
 }
 
-function paintMovieData(movieReviewData) {
-  const flatReviewData = movieReviewData.flat().sort((a, b) => b.on - a.on);
+//Printing movie Review Dtata
+function paintMovieData(movieReview) {
+  const flatReviewData = movieReview.flat();
+  const sorted = flatReviewData.toSorted((a, b) => b.on - a.on);
   const movieListEl = document.querySelector('#movie-list ul');
 
-  flatReviewData.map(movie => {
+  addMovieReviewData(movieListEl, sorted);
+}
+
+function registerEventHandler(movieReview) {
+  const sortBtn = document.getElementById('sortBtn');
+  sortBtn.addEventListener('click', () => sortByReview(movieReview));
+}
+
+function sortByReview(movieReviewData) {
+  const flatReviewData = movieReviewData.flat();
+  const movieListEl = document.querySelector('#movie-list ul');
+  removeAllChildNodes(movieListEl);
+  addMovieReviewData(movieListEl, flatReviewData);
+}
+
+function addMovieReviewData(movieListEl, movieReview) {
+  movieReview.map(movie => {
     const liElem = document.createElement('li');
     liElem.classList.add('card', 'p-2', 'my-2');
 
@@ -60,15 +78,19 @@ function paintMovieData(movieReviewData) {
 
     const byElem = document.createElement('p');
     byElem.classList.add('mx-2', 'mb-2');
-    byElem.innerText = `By ${movie.by} on ${new Intl.DateTimeFormat(
-      'en-GB', {
-        dateStyle: 'full',
-        timeStyle: 'medium'
-      }
-    ).format(movie.on)}`;
+    byElem.innerText = `By ${movie.by} on ${new Intl.DateTimeFormat('en-GB', {
+      dateStyle: 'full',
+      timeStyle: 'medium',
+    }).format(movie.on)}`;
     liElem.appendChild(byElem);
     movieListEl.appendChild(liElem);
   });
+}
+
+function removeAllChildNodes(parent) {
+  while (parent.firstChild) {
+    parent.removeChild(parent.firstChild);
+  }
 }
 
 inti();
